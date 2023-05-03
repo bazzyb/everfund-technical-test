@@ -1,0 +1,26 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = "native"
+}
+
+model Nonprofit {
+  id           Int       @id @default(autoincrement())
+  name         String
+  numEmployees Int
+  payments     Payment[]
+}
+
+model Payment {
+  id          Int       @id @default(autoincrement())
+  date        DateTime  @default(now())
+  amountPaid  Int
+  status      String
+  giftAided   Boolean
+  nonprofit   Nonprofit @relation(fields: [nonprofitId], references: [id])
+  nonprofitId Int
+}
