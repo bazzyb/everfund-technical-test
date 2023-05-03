@@ -2,9 +2,15 @@ import type { QueryResolvers } from 'types/graphql'
 
 import { db } from 'src/lib/db'
 
-export const payments: QueryResolvers['payments'] = ({ nonprofitId }) => {
+export const payments: QueryResolvers['payments'] = ({
+  nonprofitId,
+  limit,
+}) => {
   return db.payment.findMany({
-    where: { nonprofitId: nonprofitId ?? undefined },
+    where: {
+      nonprofitId: nonprofitId ?? undefined,
+    },
+    take: limit || undefined,
   })
 }
 

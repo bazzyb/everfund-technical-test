@@ -9,13 +9,13 @@ export type NonprofitPayment = {
   status: string
 }
 
-export function useGetPayments(nonprofitId: number) {
+export function useGetPayments(nonprofitId: number, limit?: number) {
   const { data, ...queryProps } = useQuery<{
     payments: Array<NonprofitPayment>
   }>(
     gql`
-      query PaymentsQuery($nonprofitId: Int!) {
-        payments(nonprofitId: $nonprofitId) {
+      query PaymentsQuery($nonprofitId: Int!, $limit: Int) {
+        payments(nonprofitId: $nonprofitId, limit: $limit) {
           id
           date
           amountPaid
@@ -26,7 +26,7 @@ export function useGetPayments(nonprofitId: number) {
       }
     `,
     {
-      variables: { nonprofitId },
+      variables: { nonprofitId, limit },
     }
   )
   return {

@@ -28,7 +28,7 @@ export const schema = gql`
   """
   type Query {
     "Fetch Payments."
-    payments(nonprofitId: Int): [Payment!]! @requireAuth
+    payments(nonprofitId: Int, limit: Int): [Payment!]! @requireAuth
 
     "Fetch a Payment by id."
     payment(id: Int!): Payment @requireAuth
