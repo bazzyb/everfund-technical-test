@@ -11,6 +11,8 @@ function calculateGiftAidPercentage(
 export function buildPaymentSummary(payments: Array<NonprofitPayment>) {
   const { count, total, withGiftAid } = payments.reduce(
     (acc, payment) => {
+      if (payment.status !== 'succeeded') return acc
+
       acc.count += 1
       acc.total += payment.amountPaid
       if (payment.giftAided) {
