@@ -9,13 +9,28 @@ export type NonprofitPayment = {
   status: string
 }
 
-export function useGetPayments(nonprofitId: number, limit?: number) {
+export function useGetPayments(
+  nonprofitId: number,
+  limit?: number,
+  orderBy?: 'date' | 'amountPaid' | 'giftAided',
+  direction?: 'asc' | 'desc'
+) {
   const { data, ...queryProps } = useQuery<{
     payments: Array<NonprofitPayment>
   }>(
     gql`
-      query PaymentsQuery($nonprofitId: Int!, $limit: Int) {
-        payments(nonprofitId: $nonprofitId, limit: $limit) {
+      query PaymentsQuery(
+        $nonprofitId: Int!
+        $limit: Int
+        $orderBy: OrderByField!
+        $direction: OrderDirection!
+      ) {
+        payments(
+          nonprofitId: $nonprofitId
+          limit: $limit
+          orderBy: $orderBy
+          orderDirection: $direction
+        ) {
           id
           date
           amountPaid
@@ -26,7 +41,7 @@ export function useGetPayments(nonprofitId: number, limit?: number) {
       }
     `,
     {
-      variables: { nonprofitId, limit },
+      variables: { nonprofitId, limit, orderBy, direction },
     }
   )
   return {

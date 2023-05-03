@@ -6,14 +6,16 @@ export const payments: QueryResolvers['payments'] = ({
   nonprofitId,
   limit,
   orderBy,
+  orderDirection,
 }) => {
+  console.log('payments', nonprofitId, limit, orderBy, orderDirection)
   return db.payment.findMany({
     where: {
       nonprofitId,
     },
     take: limit || undefined,
     orderBy: {
-      [orderBy?.field ?? 'date']: orderBy?.direction ?? 'desc',
+      [orderBy ?? 'date']: orderDirection ?? 'desc',
     },
   })
 }

@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 
 import { MetaTags } from '@redwoodjs/web'
 
+import Spinner from 'src/components/Spinner/Spinner'
 import Stats from 'src/components/Stats/Stats'
 import { useNonProfitContext } from 'src/layouts/MainLayout/MainLayout.context'
 import { useGetPayments } from 'src/services/useGetPayments'
@@ -11,7 +12,18 @@ import { buildPaymentSummary } from './utils'
 
 const HomePage = () => {
   const { nonprofit } = useNonProfitContext()
-  const { data: payments, loading } = useGetPayments(nonprofit.id, 20)
+  const { data: payments, loading } = useGetPayments(
+    nonprofit.id,
+    20,
+    'date',
+    'desc'
+  )
+  const { data: topDonations, loading: donationsLoading } = useGetPayments(
+    nonprofit.id,
+    5,
+    'amountPaid',
+    'desc'
+  )
   const paymentSummary = useMemo(
     () => buildPaymentSummary(payments),
     [payments]
@@ -54,14 +66,37 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="mx-auto mb-4 max-w-7xl pb-2">
-        <h2 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
-          Donations
-        </h2>
-      </div>
+      <div className="grid grid-cols-1 gap-5 md:grid-cols-4">
+        <div className="md:col-span-3">
+          <div className="mx-auto mb-4 max-w-7xl pb-2">
+            <h2 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
+              Donations
+            </h2>
+          </div>
 
-      <div className="relative h-96 overflow-y-auto rounded-xl border border-dashed border-gray-400 opacity-75">
-        <PaymentsTable payments={payments} />
+          <div className="relative h-96 overflow-y-auto rounded-xl border border-dashed border-gray-400 opacity-75">
+            <PaymentsTable payments={payments} />
+          </div>
+        </div>
+
+        <div>
+          <div className="mx-auto mb-4 max-w-7xl pb-2">
+            <h2 className="text-3xl font-bold leading-tight tracking-tight text-gray-900">
+              Top Donations
+            </h2>
+          </div>
+          <ol className="list-inside list-decimal rounded-xl border border-dashed border-gray-400 px-2 py-1">
+            {donationsLoading && <Spinner />}
+            {topDonations?.map((donation) => (
+              <li
+                key={donation.id}
+                className="w-full border-b p-3 text-gray-700 last:border-b-0"
+              >
+                £{(donation.amountPaid / 100).toFixed(2)}
+              </li>
+            ))}
+          </ol>
+        </div>
       </div>
     </>
   )
