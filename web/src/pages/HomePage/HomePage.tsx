@@ -1,21 +1,33 @@
+import { useMemo } from 'react'
+
 import { MetaTags } from '@redwoodjs/web'
 
 import Stats from 'src/components/Stats/Stats'
-// import { useNonProfitContext } from 'src/layouts/MainLayout/MainLayout.context'
+import { useNonProfitContext } from 'src/layouts/MainLayout/MainLayout.context'
+import { useGetPayments } from 'src/services/useGetPayments'
+
+import { buildPaymentSummary } from './utils'
 
 const HomePage = () => {
-  // How to pull the nonpofit ID form context
-  // const { nonprofit, setNonProfit } = useNonProfitContext()
+  const { nonprofit } = useNonProfitContext()
+  const { data: payments } = useGetPayments(nonprofit.id)
+  const paymentSummary = useMemo(
+    () => buildPaymentSummary(payments),
+    [payments]
+  )
 
   const homepageStats = [
-    { name: 'Total Donations', statistic: '42' },
+    {
+      name: 'Total Donations',
+      statistic: paymentSummary.count.toString(),
+    },
     {
       name: 'Total Donations Amount',
-      statistic: '£20.50',
+      statistic: `£${paymentSummary.total}`,
     },
     {
       name: 'Donations with Gift Aid (%)',
-      statistic: '57%',
+      statistic: `${paymentSummary.giftAidPercentage}%`,
     },
   ]
 

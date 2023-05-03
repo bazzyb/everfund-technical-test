@@ -15,14 +15,14 @@ export const NonprofitsList = [
   },
 ]
 
-export type NonpofitType = {
+export type NonprofitType = {
   id: number
   name: string
 }
 
 interface NonProfitContextValue {
-  nonprofit: NonpofitType
-  setNonProfit: React.Dispatch<React.SetStateAction<NonpofitType>>
+  nonprofit: NonprofitType
+  setNonProfit: React.Dispatch<React.SetStateAction<NonprofitType>>
 }
 
 // id
@@ -33,7 +33,7 @@ export const NonProfitContext = createContext<
 export function NonProfitProvider({
   children,
 }: PropsWithChildren<Record<never, never>>) {
-  const [nonprofit, setNonProfit] = useState<NonpofitType>(NonprofitsList[0])
+  const [nonprofit, setNonProfit] = useState<NonprofitType>(NonprofitsList[0])
 
   return (
     <NonProfitContext.Provider value={{ nonprofit, setNonProfit }}>
