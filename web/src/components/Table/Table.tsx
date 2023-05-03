@@ -10,7 +10,7 @@ const td = (props: {
     <td
       {...props}
       className={twMerge(
-        'whitespace-nowrap px-3 py-4 text-sm text-gray-500',
+        'whitespace-nowrap px-3 py-4 text-sm text-gray-700',
         props.className
       )}
     />
@@ -26,7 +26,7 @@ const th = (props: {
       scope="col"
       {...props}
       className={twMerge(
-        'sticky top-0 bg-white px-3 py-3.5 text-left text-sm font-semibold text-gray-900',
+        'sticky top-0 bg-slate-800 px-3 py-3.5 text-left text-sm font-semibold text-white',
         props.className
       )}
     />
