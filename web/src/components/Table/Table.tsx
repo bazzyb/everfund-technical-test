@@ -26,7 +26,7 @@ const th = (props: {
       scope="col"
       {...props}
       className={twMerge(
-        'px-3 py-3.5 text-left text-sm font-semibold text-gray-900',
+        'sticky top-0 bg-white px-3 py-3.5 text-left text-sm font-semibold text-gray-900',
         props.className
       )}
     />
@@ -51,7 +51,7 @@ const tr = (props: {
     <tr
       {...props}
       className={twMerge(
-        'border-b border-gray-200 last:border-0 dark:border-gray-700',
+        'border-b border-gray-200 last:border-0',
         props.className
       )}
     />
@@ -71,6 +71,14 @@ const table = (props: {
 const thead = (props: {
   children: ReactNode
   className?: string
-}): ReactElement => <thead {...props} className={props.className} />
+}): ReactElement => (
+  <thead
+    {...props}
+    className={twMerge(
+      'sticky top-0 bg-white [&_tr]:border-b [&_tr]:border-gray-400',
+      props.className
+    )}
+  />
+)
 
 export default { td, tbody, tr, th, thead, table }
