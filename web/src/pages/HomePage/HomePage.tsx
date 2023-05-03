@@ -1,8 +1,11 @@
 import { useMemo } from 'react'
 
+import { format, parseISO } from 'date-fns'
+
 import { MetaTags } from '@redwoodjs/web'
 
 import Stats from 'src/components/Stats/Stats'
+import Table from 'src/components/Table/Table'
 import { useNonProfitContext } from 'src/layouts/MainLayout/MainLayout.context'
 import { useGetPayments } from 'src/services/useGetPayments'
 
@@ -10,7 +13,7 @@ import { buildPaymentSummary } from './utils'
 
 const HomePage = () => {
   const { nonprofit } = useNonProfitContext()
-  const { data: payments, loading } = useGetPayments(nonprofit.id)
+  const { data: payments, loading } = useGetPayments(nonprofit.id, 20)
   const paymentSummary = useMemo(
     () => buildPaymentSummary(payments),
     [payments]
@@ -59,33 +62,29 @@ const HomePage = () => {
         </h2>
       </div>
 
-      <div className="relative h-96 overflow-hidden rounded-xl border border-dashed border-gray-400 opacity-75">
-        {/*
-         * TODO: Replace this component with a table component that is already supplied in the components folder
-         * */}
-        <svg
-          className="absolute inset-0 h-full w-full stroke-gray-900/10"
-          fill="none"
-        >
-          <defs>
-            <pattern
-              id="pattern-003a54e1-93b5-4534-9ccb-0ed8812b8270"
-              x="0"
-              y="0"
-              width="10"
-              height="10"
-              patternUnits="userSpaceOnUse"
-            >
-              <path d="M-3 13 15-5M-5 5l18-18M-1 21 17 3"></path>
-            </pattern>
-          </defs>
-          <rect
-            stroke="none"
-            fill="url(#pattern-003a54e1-93b5-4534-9ccb-0ed8812b8270)"
-            width="100%"
-            height="100%"
-          ></rect>
-        </svg>
+      <div className="relative h-96 overflow-y-auto rounded-xl border border-dashed border-gray-400 opacity-75">
+        <Table.table>
+          <Table.thead>
+            <Table.tr>
+              <Table.th>Amount</Table.th>
+              <Table.th>Gift Aid</Table.th>
+              <Table.th>Date</Table.th>
+              <Table.th>Status</Table.th>
+            </Table.tr>
+          </Table.thead>
+          <Table.tbody>
+            {payments.map((payment) => (
+              <Table.tr key={payment.id}>
+                <Table.td>£{payment.amountPaid.toFixed(2)}</Table.td>
+                <Table.td>{payment.giftAided ? 'Yes' : 'No'}</Table.td>
+                <Table.td>
+                  {format(parseISO(payment.date), 'io MMMM yyyy')}
+                </Table.td>
+                <Table.td>{payment.status}</Table.td>
+              </Table.tr>
+            ))}
+          </Table.tbody>
+        </Table.table>
       </div>
     </>
   )

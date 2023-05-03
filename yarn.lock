@@ -11201,7 +11201,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"date-fns@npm:^2.29.3":
+"date-fns@npm:^2.29.3, date-fns@npm:^2.30.0":
   version: 2.30.0
   resolution: "date-fns@npm:2.30.0"
   dependencies:
@@ -21558,6 +21558,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@redwoodjs/core": 5.0.3
+    date-fns: ^2.30.0
     prettier-plugin-tailwindcss: ^0.2.8
   languageName: unknown
   linkType: soft
