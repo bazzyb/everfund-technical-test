@@ -10,7 +10,7 @@ import { buildPaymentSummary } from './utils'
 
 const HomePage = () => {
   const { nonprofit } = useNonProfitContext()
-  const { data: payments } = useGetPayments(nonprofit.id)
+  const { data: payments, loading } = useGetPayments(nonprofit.id)
   const paymentSummary = useMemo(
     () => buildPaymentSummary(payments),
     [payments]
@@ -43,7 +43,7 @@ const HomePage = () => {
 
       <dl className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-3">
         {homepageStats.map((item) => (
-          <Stats key={item.name} {...item} />
+          <Stats key={item.name} loading={loading} {...item} />
         ))}
       </dl>
 
