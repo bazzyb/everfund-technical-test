@@ -9,7 +9,7 @@ export const payments: QueryResolvers['payments'] = ({
 }) => {
   return db.payment.findMany({
     where: {
-      nonprofitId: nonprofitId ?? undefined,
+      nonprofitId,
     },
     take: limit || undefined,
     orderBy: {
