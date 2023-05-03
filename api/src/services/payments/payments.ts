@@ -5,12 +5,16 @@ import { db } from 'src/lib/db'
 export const payments: QueryResolvers['payments'] = ({
   nonprofitId,
   limit,
+  orderBy,
 }) => {
   return db.payment.findMany({
     where: {
       nonprofitId: nonprofitId ?? undefined,
     },
     take: limit || undefined,
+    orderBy: {
+      [orderBy?.field ?? 'date']: orderBy?.direction ?? 'desc',
+    },
   })
 }
 
