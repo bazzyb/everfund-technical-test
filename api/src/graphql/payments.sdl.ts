@@ -18,9 +18,6 @@ export const schema = gql`
     "Description for giftAided."
     giftAided: Boolean!
 
-    "Description for nonprofit."
-    nonprofit: Nonprofit!
-
     "Description for nonprofitId."
     nonprofitId: Int!
   }
