@@ -13,7 +13,7 @@ function TableBody({ payments }: TableBodyProps) {
     <Table.tbody>
       {payments.map((payment) => (
         <Table.tr key={payment.id}>
-          <Table.td>£{payment.amountPaid.toFixed(2)}</Table.td>
+          <Table.td>£{(payment.amountPaid / 100).toFixed(2)}</Table.td>
           <Table.td>
             {payment.giftAided ? (
               <CheckCircleIcon className="h-6 w-6 text-green-700" />

@@ -26,7 +26,7 @@ export function buildPaymentSummary(payments: Array<NonprofitPayment>) {
   )
   return {
     count,
-    total: total.toFixed(2),
+    total: (total / 100).toFixed(2),
     giftAidPercentage: calculateGiftAidPercentage(count, withGiftAid),
   }
 }
