@@ -1,15 +1,11 @@
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
 
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 import { Head } from '@redwoodjs/web'
 
-import {
-  NonProfitContext,
-  NonpofitType,
-  NonprofitsList,
-} from './MainLayout.context'
+import { NonProfitProvider } from './MainLayout.context'
 import NonProfitDropdown from './NonProfitDropdown'
 
 const user = {
@@ -38,14 +34,13 @@ type MainLayoutProps = {
 }
 
 const MainLayout = ({ children }: MainLayoutProps) => {
-  const [nonprofit, setNonProfit] = useState<NonpofitType>(NonprofitsList[0])
   return (
     <>
       <Head>
         <html className="h-full" lang="en" />
         <body className="h-full" />
       </Head>
-      <NonProfitContext.Provider value={{ nonprofit, setNonProfit }}>
+      <NonProfitProvider>
         <div className="min-h-full">
           <Disclosure as="nav" className="border-b border-gray-200 bg-white">
             {({ open }) => (
@@ -226,7 +221,7 @@ const MainLayout = ({ children }: MainLayoutProps) => {
             </main>
           </div>
         </div>
-      </NonProfitContext.Provider>
+      </NonProfitProvider>
     </>
   )
 }

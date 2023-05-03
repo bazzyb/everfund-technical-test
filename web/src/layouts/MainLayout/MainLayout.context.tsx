@@ -1,4 +1,4 @@
-import { createContext } from 'react'
+import { PropsWithChildren, createContext, useState } from 'react'
 
 export const NonprofitsList = [
   {
@@ -29,6 +29,18 @@ interface NonProfitContextValue {
 export const NonProfitContext = createContext<
   NonProfitContextValue | undefined
 >(undefined)
+
+export function NonProfitProvider({
+  children,
+}: PropsWithChildren<Record<never, never>>) {
+  const [nonprofit, setNonProfit] = useState<NonpofitType>(NonprofitsList[0])
+
+  return (
+    <NonProfitContext.Provider value={{ nonprofit, setNonProfit }}>
+      {children}
+    </NonProfitContext.Provider>
+  )
+}
 
 export const useNonProfitContext = () => {
   const nonProfitContext = React.useContext(NonProfitContext)
